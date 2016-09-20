@@ -1,0 +1,42 @@
+<!DOCTYPEhtml>
+<html>
+ <head>
+  <title>City Finder</title>
+  <script   src="http://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+  <script>
+   $("#button").click(function(e){
+    var value = $("#cityfield").val();
+    console.log(value); 
+    $("#dispcity").text(value);
+    e.preventDefault();
+   }); 
+
+   $(document).ready(function() {
+    $( "#cityfield" ).keyup(function() {
+     var url = "http://bioresearch.byu.edu/cs260/jquery/getcity.cgi?q="+$("#cityfield").val();
+     $.getJSON(url,function(data) {
+      var everything;
+      console.log(data);
+      everything = "<ul>";
+      $.each(data, function(i,item) {
+       everything += "<li> "+data[i].city;
+       });
+      everything += "</ul>";
+      $("#txtHint").html(everything);
+     });
+    });
+   }); 
+  </script>
+ </head>
+ <body>
+  <form>
+   Enter A Utah City: <input type="text" id="cityfield" value=""><br>
+   Suggestion: <span id="txtHint">Empty</span>
+   <input id="button" type="submit" value="Submit">
+  </form>
+  <p>City</p>
+  <textarea id="dispcity">No City</textarea>
+  <p>Current Weather</p>
+  <div id="weather">No weather</div>
+ </body>
+</html>
